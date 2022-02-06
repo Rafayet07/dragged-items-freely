@@ -81,7 +81,6 @@ const BoardItem = (props) => {
       style={itemStyle}
     >
       {itemData.title}
-      {console.log(itemData.title)}
     </div>
   );
 };
