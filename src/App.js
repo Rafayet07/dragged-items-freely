@@ -1,49 +1,55 @@
-import "./styles/index.scss";
+import Board from './components/Board';
+import { useState } from 'react';
 
-import Item1 from "./Components/Item1";
-import Item2 from "./Components/Item2";
-import {useState} from "react";
-
-const initial_State={
-  data: {
-    items: {
-      movableItem: {
-        totalItem: 2,
-        itemList: {
-          [`item-1`]: {
-            h: 10,
-            w: 20,
-            x: 0,
-            y: 0
-          },
-          [`item-2`]: {
-            h: 10,
-            w: 20,
-            x: 40,
-            y: 10
-          }
-        }
-      }
-    }
-  }
-}
+const DUMMY_DATA = {
+  items: {
+    movableItem: {
+      totalItem: 2,
+      itemList: {
+        [`item-1`]: {
+          h: 10*16,
+          w: 10*16,
+          x: 5*16,
+          y: 5*16,
+        },
+        [`item-2`]: {
+          h: 10*16,
+          w: 10*16,
+          x: 20*16,
+          y: 5*16,
+        },
+      },
+    },
+  },
+};
 
 function App() {
+  const [items, setItems] = useState({
+    data: DUMMY_DATA,
+  });
 
-  const [items, ] = useState(initial_State);
+  const itemList = items.data.items.movableItem.itemList;
 
-  const {itemList}=items.data.items.movableItem;
-  let item1,item2;
-  item1=itemList["item-1"];
-  item2=itemList["item-2"];
-  
+  const updateItems = (updateItem) => {
+
+    setItems((preItems) => {
+      
+      let updatedItems = { ...preItems };
+
+      let itemList = updatedItems.data.items.movableItem.itemList;
+
+      const itemKey = Object.keys(updateItem)[0];
+
+      itemList[itemKey] = updateItem[itemKey];
+
+      return updatedItems;
+    });
+  };
+
   return (
-    <div className="container">
-
-          <Item1 item={item1}/>    
-         <Item2 item={item2} />  
-          
-    </div>
+    <>
+      <Board items={itemList} updateItems={updateItems} />
+    </>
   );
 }
 
